@@ -17,9 +17,9 @@ namespace MyProtocolsApp_Esteban.Views
             InitializeComponent();
         }
 
-        private void Switch_Toggled(object sender, ToggledEventArgs e)
+        private async void BtnLogin_Clicked(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new Startpage());    
         }
     }
 }
