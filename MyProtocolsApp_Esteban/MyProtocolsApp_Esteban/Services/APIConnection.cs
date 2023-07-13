@@ -8,6 +8,7 @@ namespace MyProtocolsApp_Esteban.Services
     {
 
         public static string ProductionPrefixURL = "http://192.168.0.15:45455/api/";
+        public static string TestingPrefixURL = "http://192.168.0.15:45455/api/";
 
         public static string ApiKeyName = "Progra6ApiKey";
         public static string ApiKeyValue = "EstebanProgra6AsdZxc12345";

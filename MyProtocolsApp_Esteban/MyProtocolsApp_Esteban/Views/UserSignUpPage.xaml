@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Co xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MyProtocolsApp_Esteban.Views.Page1">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Entry Placeholder="Username / Email"/>
+            <Entry Placeholder="Password"/>
+            <Entry Placeholder="Name"/>
+            <Entry Placeholder="BackUp Email"/>
+        </StackLayout>
+    </ContentPage.Content>
