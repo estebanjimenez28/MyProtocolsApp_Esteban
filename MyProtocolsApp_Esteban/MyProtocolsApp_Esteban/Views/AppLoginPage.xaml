@@ -5,7 +5,7 @@
              Shell.NavBarIsVisible="False"
              NavigationPage.HasNavigationBar="False"
              BackgroundColor="Gainsboro"
-             BackgroundImageSource="AppLogin">
+             BackgroundImageSource="AppLoginBG">
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" Padding="50, 25, 50,25" >
 

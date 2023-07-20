@@ -10,12 +10,12 @@ using RestSharp;
 
 namespace MyProtocolsApp_Esteban.Models
 {
-   public class User
+    public class User
 
 
     {
 
-        public RestRequest Request { get; set; }    
+        public RestRequest Request { get; set; }
         //en este ejemplo usare los mismos atributos que en el modelo del API
         //posteriormente en otra clase usare el DTP del usario para simplificar
         //el json que se envia y recibe desde el API
@@ -36,6 +36,8 @@ namespace MyProtocolsApp_Esteban.Models
 
         public User()
         {
+            Active = true; 
+            IsBlocked = false;  
 
         }
         //Funciones especificas de llamada a end points del API
@@ -54,25 +56,25 @@ namespace MyProtocolsApp_Esteban.Models
                 string RouteSufix = String.Format("Users/ValidateLogin?username={0}&password={1}", this.Email, this.Password);
 
                 //armamos la rura completa al endpoint en el API
-                string URL = Services.APIConnection.ProductionPrefixURL + RouteSufix;   
+                string URL = Services.APIConnection.ProductionPrefixURL + RouteSufix;
 
-                RestClient client = new RestClient(URL);  
-                
+                RestClient client = new RestClient(URL);
+
                 Request = new RestRequest(URL, Method.Get);
 
                 //agregamos mecanismo de seguridad, en este caso API key
 
-                Request.AddHeader(Services.APIConnection.ApiKeyName,Services.APIConnection.ApiKeyValue);
-                
+                Request.AddHeader(Services.APIConnection.ApiKeyName, Services.APIConnection.ApiKeyValue);
+
                 //ejecutar la llamada al API
 
-                RestResponse response = await client.ExecuteAsync(Request); 
+                RestResponse response = await client.ExecuteAsync(Request);
 
                 //saber si las cosas salieron bien
 
-                HttpStatusCode statusCode = response.StatusCode;    
+                HttpStatusCode statusCode = response.StatusCode;
 
-                if(statusCode == HttpStatusCode.OK) 
+                if (statusCode == HttpStatusCode.OK)
                 {
                     return true;
                 }
@@ -84,12 +86,71 @@ namespace MyProtocolsApp_Esteban.Models
 
             }
             catch (Exception ex)
-            { string message = ex.Message;  
+            {
+                string message = ex.Message;
 
                 throw;
             }
         }
-    }
 
-   
+
+        public async Task<bool> AddUserAsync()
+        {
+            try
+            {
+
+                //usaremos el prefijo de la ruta URL del API que se indica en
+                //services\APIConnection para agregar el sufijo y lograr la ruta
+                //completa de consumo del end point que se quiere usar.
+
+                string RouteSufix = String.Format("Users");
+
+                //armamos la rura completa al endpoint en el API
+                string URL = Services.APIConnection.ProductionPrefixURL + RouteSufix;
+
+                RestClient client = new RestClient(URL);
+
+                Request = new RestRequest(URL, Method.Post);
+
+                //agregamos mecanismo de seguridad, en este caso API key
+
+                Request.AddHeader(Services.APIConnection.ApiKeyName, Services.APIConnection.ApiKeyValue);
+
+                //en el caso de una operacion POST debemos serializar el objeto para pasarlo como
+                //json al API
+
+                string SerializeModelObject = JsonConvert.SerializeObject(this);
+                //agregamos el objeto serializado en el cuerpo del request
+                Request.AddBody(SerializeModelObject, GlobalObjects.MimeType);
+
+
+                //ejecutar la llamada al API
+
+                RestResponse response = await client.ExecuteAsync(Request);
+
+                //saber si las cosas salieron bien
+
+                HttpStatusCode statusCode = response.StatusCode;
+
+                if (statusCode == HttpStatusCode.Created)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+
+                throw;
+            }
+        }
+
+
+    }
 }

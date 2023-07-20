@@ -11,24 +11,18 @@
     <PackageReference Include="Acr.UserDialogs" Version="7.2.0.564" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="110.2.0" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\UserSignUpPage.xaml.cs">
-      <DependentUpon>UserSignUpPage.xaml</DependentUpon>
-    </Compile>
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\AppLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\UserSignUpPage.xaml">
+    <EmbeddedResource Update="Views\Startpage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Startpage.xaml">
+    <EmbeddedResource Update="Views\UserSignUpPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

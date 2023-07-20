@@ -6,52 +6,59 @@ using MyProtocolsApp_Esteban.Models;
 
 namespace MyProtocolsApp_Esteban.ViewModels
 {
-    public class UserViewModel :BaseViewModel
+    public class UserViewModel : BaseViewModel
     {
-        //el VM funciona como puente entre el modelo y la vista
-        //en sentido teorico el vm "siente" los cambios de la vista 
-        //y los pasa al odelo de forma automatica, o viceversa
-        //segun se use en uno o dos sentidos.
+        //el VM funciona como puente entre el modelo y la vista 
+        //en sentido teórico el vm "siente" los cambios de la vista 
+        //y los pasa al modelo de forma automática, o viceversa
+        //según se use en uno o dos sentidos. 
 
-        //tambien se puede usar (como en este caso particular,
-        //simplemente como mediador de procesos. Mas adelante se usara
-        //commands y bingins en dos sentidos
+        //también se puede usar (como en este caso particular, 
+        //simplemente como mediador de procesos. Más adelante se usará 
+        //commands y bindings en dos sentidos 
 
-        //primero en formato de funciones clasicas
+        //primero en formato de funciones clásicas
         public User MyUser { get; set; }
 
-        public UserViewModel() 
-        { 
-            MyUser = new User();
-        }  
+        public UserRole MyUserRole { get; set; }
 
-        //funciones
-        //funcion para validar el ingreso del usuario al app por medio del login
+
+        public UserViewModel()
+        {
+            MyUser = new User();
+            MyUserRole = new UserRole();
+        }
+
+        //funciones 
+
+        //función para validar el ingreso del usuario al app por medio del 
+        //login 
 
         public async Task<bool> UserAccessValidation(string pEmail, string pPassword)
         {
-            //debemos poder controlar que no se ejecute la operacion mas de una vez
-            //en este caso hay una funcionalidad pensada para eso en baseViewModel que
-            //fue heredada al definir esta clase.
-            //se usara una propiedad llamada "IsBusy" para indicar que esta en proceso de ejecucuion
-            //mientras su valor sea verdadero
+            //debemos poder controlar que no se ejecute la operación más de una vez 
+            //en este caso hay una funcionalidad pensada para eso en BaseViewModel que 
+            //fue heredada al definir esta clase. 
+            //Se usará una propiedad llamada "IsBusy" para indicar que está en proceso de ejecución
+            //mientras su valor sea verdadero 
 
-            //control de bloqueo de funcionalidad
+            //control de bloqueo de funcionalidad 
+            if (IsBusy) return false;
+            IsBusy = true;
 
-            if(IsBusy) return false; 
-           IsBusy = true;
             try
             {
                 MyUser.Email = pEmail;
                 MyUser.Password = pPassword;
 
                 bool R = await MyUser.ValidateUserLogin();
-                return R;
 
+                return R;
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
+
                 return false;
 
                 throw;
@@ -60,8 +67,75 @@ namespace MyProtocolsApp_Esteban.ViewModels
             {
                 IsBusy = false;
             }
-           
         }
+
+        //carga la lista de roles, que se usaran por ejemplo en el picker de roles en la
+        //creación de un usuario nuevo
+        public async Task<List<UserRole>> GetUserRolesAsync()
+        {
+            try
+            {
+                List<UserRole> roles = new List<UserRole>();
+
+                roles = await MyUserRole.GetUserRolesAsync();
+
+                if (roles == null)
+                {
+                    return null;
+                }
+
+                return roles;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        //función de creación de usuario nuevo 
+        public async Task<bool> AddUserAsync(string pEmail,
+                                             string pPassword,
+                                             string pName,
+                                             string pBackUpEmail,
+                                             string pPhoneNumber,
+                                             string pAddress,
+                                             int pUserRoleID)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+
+            try
+            {
+                // MyUser = new User();
+
+                MyUser.Email = pEmail;
+                MyUser.Password = pPassword;
+                MyUser.Name = pName;
+                MyUser.BackUpEmail = pBackUpEmail;
+                MyUser.PhoneNumber = pPhoneNumber;
+                MyUser.Address = pAddress;
+                MyUser.UserRoleId = pUserRoleID;
+
+                bool R = await MyUser.AddUserAsync();
+
+                return R;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+
+            }
+            finally { IsBusy = false; }
+
+        }
+
+
+
+
 
     }
 }
