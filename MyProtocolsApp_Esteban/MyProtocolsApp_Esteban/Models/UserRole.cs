@@ -18,7 +18,7 @@ namespace MyProtocolsApp_Esteban.Models
 
 
         //funciones
-        public async Task<List<UserRole>> GetUserRolesAsync() 
+        public async Task<List<UserRole>> GetAllUserRolesAsync() 
         {
             try { 
             

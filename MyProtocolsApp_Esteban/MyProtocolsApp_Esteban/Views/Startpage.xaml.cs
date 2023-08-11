@@ -12,9 +12,25 @@ namespace MyProtocolsApp_Esteban.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Startpage : ContentPage
 	{
-		public Startpage ()
+		public Startpage()
 		{
-			InitializeComponent ();
+			InitializeComponent();
+			LoadUserName();
+
 		}
-	}
+		private void LoadUserName() 
+		{ LblUserName.Text = GlobalObjects.MyLocalUser.Nombre.ToUpper(); 
+
+		}
+
+        private async void BtnUserManagment_Clicked(object sender, EventArgs e)
+        {
+			await Navigation.PushAsync (new UserManagmentPage());
+        }
+
+        private async void BtnPasswordManagment_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new PasswordManagmentPage());
+        }
+    }
 }

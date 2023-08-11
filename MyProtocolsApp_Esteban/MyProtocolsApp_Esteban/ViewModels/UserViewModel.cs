@@ -22,14 +22,72 @@ namespace MyProtocolsApp_Esteban.ViewModels
 
         public UserRole MyUserRole { get; set; }
 
+        public UserDTO MyUserDTO { get; set; }
 
         public UserViewModel()
         {
             MyUser = new User();
             MyUserRole = new UserRole();
+            MyUserDTO = new UserDTO();
         }
 
         //funciones 
+
+        //funcion que carga los datos del objeto de usuario global 
+        public async Task<UserDTO> GetUserDataAsync(string pEmail)
+        {
+            if (IsBusy) return null;
+            IsBusy = true;
+
+            try
+            {
+                UserDTO userDTO = new UserDTO();
+
+                userDTO = await MyUserDTO.GetUserInfo(pEmail);
+
+                if (userDTO == null) return null;
+
+                return userDTO;
+
+            }
+            catch (Exception)
+            {
+                return null;
+                throw;
+            }
+            finally { IsBusy = false; }
+
+
+        }
+
+
+        public async Task<bool> UpdateUser(UserDTO pUser)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+
+            try
+            {
+                MyUserDTO = pUser;
+
+                bool R = await MyUserDTO.UpdateUserAsync();
+
+              
+
+                return R;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+
+
+        }
+
+
 
         //función para validar el ingreso del usuario al app por medio del 
         //login 
@@ -77,7 +135,7 @@ namespace MyProtocolsApp_Esteban.ViewModels
             {
                 List<UserRole> roles = new List<UserRole>();
 
-                roles = await MyUserRole.GetUserRolesAsync();
+                roles = await MyUserRole.GetAllUserRolesAsync();
 
                 if (roles == null)
                 {
