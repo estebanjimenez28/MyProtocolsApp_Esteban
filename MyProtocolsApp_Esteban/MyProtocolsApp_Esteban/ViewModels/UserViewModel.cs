@@ -87,6 +87,32 @@ namespace MyProtocolsApp_Esteban.ViewModels
 
         }
 
+        public async Task<bool> UpdatePassword(UserDTO pPassword)
+        {
+            if (IsBusy) return false;
+            IsBusy = true;
+
+            try
+            {
+                MyUserDTO = pPassword;
+
+                bool R = await MyUserDTO.UpdatePasswordAsync();
+
+
+
+                return R;
+
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+            finally { IsBusy = false; }
+
+
+        }
+
 
 
         //función para validar el ingreso del usuario al app por medio del 
