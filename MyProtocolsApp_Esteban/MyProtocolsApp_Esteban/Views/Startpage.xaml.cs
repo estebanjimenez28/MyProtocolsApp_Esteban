@@ -32,5 +32,10 @@ namespace MyProtocolsApp_Esteban.Views
         {
             await Navigation.PushAsync(new PasswordManagmentPage());
         }
+
+        private async void BtnProtocolManagment_Clicked(object sender, EventArgs e)
+        {
+			await Navigation.PushAsync(new ProtocolsListPage());
+        }
     }
 }
